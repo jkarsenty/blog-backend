@@ -8,7 +8,6 @@
 - users connection.
 - create articles.
 - get articles.
-
 <br>
 
 **API Documentation :**
@@ -28,7 +27,7 @@
     - **_/users/connect_** : to connect to the blog platform  
         - POST method   
         - ARGS :  
-            USER.connect_id  
+            USER.id  
             USER.pwd  
 <br>
 
@@ -39,22 +38,6 @@
         - ARGS :  
             ARTICLE (JSON) : title, body, article_id  
     <br>
-
+    
     - **_/articles/list_** : to get the list of all articles  
-        - GET method
-
-<br>
-
-**Data Tables :**
-
-- User :  
-    - user_id : str  
-    - name : str  
-    - connect_id : str  
-    - pwd : str  
-<br>
-
-- Article :  
-    - article_id : str  
-    - title : str  
-    - body : str  
+        - GET method 
