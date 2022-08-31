@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from datatables import User, Article
 
 app = FastAPI()
 
@@ -19,6 +20,10 @@ def get_all_users():
     return all_users
 
 
+@app.post("/users/create")
+def create_user(user: User):
+    return user
+
 
 ## Articles Endpoints
 
@@ -35,3 +40,8 @@ def get_all_users():
     '''Get all articles'''
     all_articles = {}
     return all_articles
+
+
+@app.post("/articles/create")
+def create_article(article:Article):
+    return article
