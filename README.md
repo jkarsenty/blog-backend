@@ -22,7 +22,7 @@
     - **_/users/create_** : to create a new user  
         - POST method  
         - ARGS :  
-            USER (JSON) : name, id, pwd, user_id  
+            USER (JSON) : user_id, name, connect_id, pwd  
     <br>
 
     - **_/users/connect_** : to connect to the blog platform  
