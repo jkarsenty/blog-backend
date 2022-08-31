@@ -18,6 +18,13 @@
 
 **API Endpoints :**
 
+- **_/login_** : to login to the blog platform  
+    - POST method   
+    - ARGS :  
+        USER.connect_id  
+        USER.pwd  
+    <br>
+
 - **_/users_**  : All actions about the users  
   
     - **_/users/list_** : to list all users  
@@ -29,13 +36,6 @@
         - ARGS :  
             USER (JSON) : user_id, name, connect_id, pwd  
     <br>
-
-    - **_/users/connect_** : to connect to the blog platform  
-        - POST method   
-        - ARGS :  
-            USER.connect_id  
-            USER.pwd  
-<br>
 
 - **_/articles_** : All actions about the articles  
   

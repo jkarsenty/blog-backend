@@ -8,30 +8,25 @@ app = FastAPI()
 
 @app.get("/", response_class=HTMLResponse,status_code=status.HTTP_200_OK)
 async def index():
-    '''Home Page'''
-
-    home = """
-    <html>
-        <head>
-            <title>Blog Backend</title>
-        </head>
-        <body>
-            <h1>Welcome in our Blog Backend</h1>
-        </body>
-    </html>
-    """
+    '''Home Page, Display all endpoints infos'''
+    
+    with open('html/home.html', 'r',encoding="utf-8") as f: 
+        home = f.read()
+    
     return HTMLResponse(content=home)
 
-
+## Login Endpoint
 
 ## Users Endpoints
 
-@app.get("/users")
+@app.get("/users",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
 def display_users_endpoints_infos() :
     '''Display all infos to interact with the users endpoints'''
-    users_endpoints_infos = {}
-
-    return users_endpoints_infos
+    
+    with open('html/users.html', 'r',encoding="utf-8") as f: 
+        users_endpoints_infos = f.read()
+    
+    return HTMLResponse(content=users_endpoints_infos)
 
 
 @app.get("/users/list")
@@ -49,12 +44,14 @@ def create_user(user: User):
 
 ## Articles Endpoints
 
-@app.get("/articles")
+@app.get("/articles",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
 def display_articles_endpoints_infos() :
     '''Display all infos to interact with the articles endpoints'''
-    articles_endpoints_infos = {}
 
-    return articles_endpoints_infos
+    with open('html/users.html', 'r',encoding="utf-8") as f: 
+        articles_endpoints_infos = f.read()
+    
+    return HTMLResponse(content=articles_endpoints_infos)
 
 
 @app.get("/articles/list")
