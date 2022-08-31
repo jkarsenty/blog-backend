@@ -30,6 +30,7 @@
             USER.id  
             USER.pwd  
 <br>
+
 - **_/articles_** : All actions about the articles  
   
     - **_/articles/create_** : to create a new article  
@@ -37,5 +38,6 @@
         - ARGS :  
             ARTICLE (JSON) : title, body, article_id  
     <br>
+    
     - **_/articles/list_** : to get the list of all articles  
         - GET method  
