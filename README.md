@@ -3,6 +3,11 @@
 ### Backend of a blog with python as an API.  
 ### A CLI will be available to test the API.   
 #
+
+### **API Documentation**
+
+**To visualize the API documentation go to : http://127.0.0.1:8000/docs**
+
 **The API will contain those functions (for now) :**   
 - create users.
 - users connection.
@@ -11,7 +16,7 @@
 
 <br>
 
-**API Documentation :**
+**API Endpoints :**
 
 - **_/users_**  : All actions about the users  
   
@@ -45,7 +50,7 @@
 
 <br>
 
-**Data Tables :**
+### **Data Schemas :**
 
 - User :  
     - user_id : str  

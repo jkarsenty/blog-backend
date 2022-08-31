@@ -1,7 +1,29 @@
-from fastapi import FastAPI
+from turtle import home
+from fastapi import FastAPI, status
+from fastapi.responses import HTMLResponse
 from datatables import User, Article
 
 app = FastAPI()
+
+## Index Endpoint
+
+@app.get("/", response_class=HTMLResponse,status_code=status.HTTP_200_OK)
+async def index():
+    '''Home Page'''
+
+    home = """
+    <html>
+        <head>
+            <title>Blog Backend</title>
+        </head>
+        <body>
+            <h1>Welcome in our Blog Backend</h1>
+        </body>
+    </html>
+    """
+    return HTMLResponse(content=home)
+
+
 
 ## Users Endpoints
 
@@ -20,8 +42,9 @@ def get_all_users():
     return all_users
 
 
-@app.post("/users/create")
+@app.post("/users/create",status_code=status.HTTP_201_CREATED)
 def create_user(user: User):
+    '''Create a new user'''
     return user
 
 
@@ -42,6 +65,7 @@ def get_all_users():
     return all_articles
 
 
-@app.post("/articles/create")
+@app.post("/articles/create",status_code=status.HTTP_201_CREATED)
 def create_article(article:Article):
+    '''Create a new article'''
     return article
