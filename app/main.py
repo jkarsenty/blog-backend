@@ -1,7 +1,6 @@
-from turtle import home
 from fastapi import FastAPI, status
 from fastapi.responses import HTMLResponse
-from datatables import User, Article
+from schemas import User, Article
 
 app = FastAPI()
 
