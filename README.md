@@ -37,8 +37,14 @@
         - GET method  
     <br>
 
-    - **_/users/list/{article_id}_** : to get user of id {user_id}  
+    - **_/users/list/{user_id}_** : to get user of id {user_id}  
         - GET method  
+        - ARGS :  
+            user_id (int)  
+    <br>
+
+    - **_/users/delete/{user_id}_** : to delete user of id {user_id}  
+        - DELETE method  
         - ARGS :  
             user_id (int)  
     <br>
@@ -57,6 +63,12 @@
 
     - **_/articles/list/{article_id}_** : to get article of id {article_id}  
         - GET method  
+        - ARGS :  
+            article_id (int)  
+    <br>
+
+    - **_/articles/delete/{article_id}_** : to delete article of id {article_id}  
+        - DELETE method  
         - ARGS :  
             article_id (int)
     <br>
