@@ -66,7 +66,7 @@
 - User :  
     - user_id : str  
     - name : str  
-    - connect_id : str  
+    - login : str  
     - pwd : str  
 <br>
 
