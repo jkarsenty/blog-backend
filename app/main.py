@@ -56,7 +56,7 @@ def login(login : schemas.Login, db : Session = Depends(get_db)):
 
 ## Users Endpoints ##
 
-@app.get("/users/list", status_code=200)
+@app.get("/users/list", response_model=List[schemas.ShowUser], status_code=200, tags=["Users"])
 def get_all_users(db : Session = Depends(get_db)):
     '''Get all users'''
    
