@@ -21,8 +21,8 @@
 - **_/login_** : to login to the blog platform  
     - POST method   
     - ARGS :  
-        USER.login  
-        USER.pwd  
+        LOGIN.username  
+        LOGIN.pwd  
     <br>
 
 - **_/users_**  : All actions about the users  
@@ -74,3 +74,8 @@
     - article_id : str  
     - title : str  
     - body : str  
+<br>
+
+- Login :  
+    - username : str  
+    - pwd : str  
