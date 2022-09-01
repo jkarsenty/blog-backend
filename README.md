@@ -59,8 +59,7 @@
         - GET method  
         - ARGS :  
             article_id (int)
-        <br>
-<br>
+    <br>
 
 ### **Data Schemas :**
 
