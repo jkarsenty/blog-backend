@@ -14,7 +14,7 @@ models.Base.metadata.create_all(bind=engine)
 # create app
 app = FastAPI()
 
-# Dependency
+# dependency
 def get_db():
     db = SessionLocal()
     try:
@@ -38,16 +38,6 @@ async def index():
 ## Login Endpoint ##
 
 ## Users Endpoints ##
-
-# @app.get("/users",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
-# def display_users_endpoints_infos() :
-#     '''Display all infos to interact with the users endpoints'''
-    
-#     with open('app/html/users.html', 'r',encoding="utf-8") as f: 
-#         users_endpoints_infos = f.read()
-    
-#     return HTMLResponse(content=users_endpoints_infos)
-
 
 @app.get("/users/list", status_code=200)
 def get_all_users(db : Session = Depends(get_db)):
@@ -87,16 +77,6 @@ def create_user(user: schemas.User, db: Session = Depends(get_db)):
 
 
 ## Articles Endpoints ##
-
-# @app.get("/articles",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
-# def display_articles_endpoints_infos() :
-#     '''Display all infos to interact with the articles endpoints'''
-
-#     with open('app/html/users.html', 'r',encoding="utf-8") as f: 
-#         articles_endpoints_infos = f.read()
-    
-#     return HTMLResponse(content=articles_endpoints_infos)
-
 
 @app.get("/articles/list", status_code=200)
 def get_all_articles(db : Session = Depends(get_db)):
@@ -145,16 +125,3 @@ def delete_one_article(article_id:int, db: Session = Depends(get_db)):
     db.commit()
 
     return f"Article {article_id} Deleted"
-
-
-# @app.put('/articles/update/{article_id}', status_code=status.HTTP_202_ACCEPTED)
-# def update_article(article_id:int, db: Session = Depends(get_db)):
-#     article = db.query(models.Article).filter(models.Article.article_id == article_id)
-    
-#     if not article.first():
-#         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f'Article of id {article_id} does not exist')
-
-#     article.update(synchronize_session=False)
-#     db.commit()
-
-#     return f"Article {article_id} Updated"
