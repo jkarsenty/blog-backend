@@ -45,6 +45,7 @@ async def index():
     
 #     return HTMLResponse(content=users_endpoints_infos)
 
+
 @app.get("/users/list", status_code=200)
 def get_all_users(db : Session = Depends(get_db)):
     '''Get all users'''
@@ -52,6 +53,7 @@ def get_all_users(db : Session = Depends(get_db)):
     all_users = db.query(models.User).all()
    
     return all_users
+
 
 @app.get("/users/list/{user_id}", status_code=200)
 def get_one_user(user_id : int, response : Response, db : Session = Depends(get_db)):
@@ -62,6 +64,7 @@ def get_one_user(user_id : int, response : Response, db : Session = Depends(get_
         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f'User of id {user_id} does not exist')
 
     return one_user
+
 
 @app.post("/users/create", status_code=status.HTTP_201_CREATED)
 def create_user(user: schemas.User, db: Session = Depends(get_db)):
@@ -91,6 +94,7 @@ def create_user(user: schemas.User, db: Session = Depends(get_db)):
     
 #     return HTMLResponse(content=articles_endpoints_infos)
 
+
 @app.get("/articles/list", status_code=200)
 def get_all_articles(db : Session = Depends(get_db)):
     '''Get all articles'''
@@ -98,6 +102,7 @@ def get_all_articles(db : Session = Depends(get_db)):
     all_articles = db.query(models.Article).all()
    
     return all_articles
+
 
 @app.get("/articles/list/{article_id}", status_code=200)
 def get_one_article(article_id : int, response : Response,  db : Session = Depends(get_db)):
@@ -108,6 +113,7 @@ def get_one_article(article_id : int, response : Response,  db : Session = Depen
         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f'Article of id {article_id} does not exist')
 
     return one_article
+
 
 @app.post("/articles/create",status_code=status.HTTP_201_CREATED)
 def create_article(article: schemas.Article, db : Session = Depends(get_db)):
