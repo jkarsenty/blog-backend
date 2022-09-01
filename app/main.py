@@ -1,67 +1,125 @@
-from fastapi import FastAPI, status
+from fastapi import FastAPI, status, Depends, Response, HTTPException
 from fastapi.responses import HTMLResponse
-from schemas import User, Article
+from sqlalchemy.orm import Session
 
+from . import schemas
+from . import models
+from .database import engine, SessionLocal
+
+
+# launch database engine (create table)
+models.Base.metadata.create_all(bind=engine)
+
+# create app
 app = FastAPI()
 
-## Index Endpoint
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+## Index Endpoint ##
 
 @app.get("/", response_class=HTMLResponse,status_code=status.HTTP_200_OK)
 async def index():
     '''Home Page, Display all endpoints infos'''
     
-    with open('html/home.html', 'r',encoding="utf-8") as f: 
+    with open('app/html/home.html', 'r',encoding="utf-8") as f: 
         home = f.read()
     
     return HTMLResponse(content=home)
 
-## Login Endpoint
+## Login Endpoint ##
 
-## Users Endpoints
+## Users Endpoints ##
 
-@app.get("/users",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
-def display_users_endpoints_infos() :
-    '''Display all infos to interact with the users endpoints'''
+# @app.get("/users",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
+# def display_users_endpoints_infos() :
+#     '''Display all infos to interact with the users endpoints'''
     
-    with open('html/users.html', 'r',encoding="utf-8") as f: 
-        users_endpoints_infos = f.read()
+#     with open('app/html/users.html', 'r',encoding="utf-8") as f: 
+#         users_endpoints_infos = f.read()
     
-    return HTMLResponse(content=users_endpoints_infos)
+#     return HTMLResponse(content=users_endpoints_infos)
 
-
-@app.get("/users/list")
-def get_all_users():
+@app.get("/users/list", status_code=200)
+def get_all_users(db : Session = Depends(get_db)):
     '''Get all users'''
-    all_users = {}
+   
+    all_users = db.query(models.User).all()
+   
     return all_users
 
+@app.get("/users/list/{user_id}", status_code=200)
+def get_one_user(user_id : int, response : Response, db : Session = Depends(get_db)):
+    '''Get user of id {user_id}'''
+   
+    one_user = db.query(models.User).filter(models.User.user_id == user_id).first()
+    if not one_user :
+        raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f'User of id {user_id} does not exist')
 
-@app.post("/users/create",status_code=status.HTTP_201_CREATED)
-def create_user(user: User):
+    return one_user
+
+@app.post("/users/create", status_code=status.HTTP_201_CREATED)
+def create_user(user: schemas.User, db: Session = Depends(get_db)):
     '''Create a new user'''
-    return user
-
-
-## Articles Endpoints
-
-@app.get("/articles",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
-def display_articles_endpoints_infos() :
-    '''Display all infos to interact with the articles endpoints'''
-
-    with open('html/users.html', 'r',encoding="utf-8") as f: 
-        articles_endpoints_infos = f.read()
     
-    return HTMLResponse(content=articles_endpoints_infos)
+    new_user = models.User(
+        name = user.name,
+        login = user.login,
+        pwd = user.pwd
+        )
+    
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return new_user
 
 
-@app.get("/articles/list")
-def get_all_users():
+## Articles Endpoints ##
+
+# @app.get("/articles",response_class=HTMLResponse,status_code=status.HTTP_200_OK)
+# def display_articles_endpoints_infos() :
+#     '''Display all infos to interact with the articles endpoints'''
+
+#     with open('app/html/users.html', 'r',encoding="utf-8") as f: 
+#         articles_endpoints_infos = f.read()
+    
+#     return HTMLResponse(content=articles_endpoints_infos)
+
+@app.get("/articles/list", status_code=200)
+def get_all_articles(db : Session = Depends(get_db)):
     '''Get all articles'''
-    all_articles = {}
+   
+    all_articles = db.query(models.Article).all()
+   
     return all_articles
 
+@app.get("/articles/list/{article_id}", status_code=200)
+def get_one_article(article_id : int, response : Response,  db : Session = Depends(get_db)):
+    '''Get article of id {article_id}'''
+   
+    one_article = db.query(models.Article).filter(models.Article.article_id == article_id).first()
+    if not one_article :
+        raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f'Article of id {article_id} does not exist')
+
+    return one_article
 
 @app.post("/articles/create",status_code=status.HTTP_201_CREATED)
-def create_article(article:Article):
+def create_article(article: schemas.Article, db : Session = Depends(get_db)):
     '''Create a new article'''
-    return article
+    
+    new_article = models.Article(
+        title = article.title,
+        body = article.body
+        )
+    
+    db.add(new_article)
+    db.commit()
+    db.refresh(new_article)
+
+    return new_article

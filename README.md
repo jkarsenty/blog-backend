@@ -21,20 +21,26 @@
 - **_/login_** : to login to the blog platform  
     - POST method   
     - ARGS :  
-        USER.connect_id  
+        USER.login  
         USER.pwd  
     <br>
 
 - **_/users_**  : All actions about the users  
   
+    - **_/users/create_** : to create a new user  
+        - POST method  
+        - ARGS :  
+            USER (JSON) : user_id, name, login, pwd  
+    <br>
+
     - **_/users/list_** : to list all users  
         - GET method  
     <br>
 
-    - **_/users/create_** : to create a new user  
-        - POST method  
+    - **_/users/list/{article_id}_** : to get user of id {user_id}  
+        - GET method  
         - ARGS :  
-            USER (JSON) : user_id, name, connect_id, pwd  
+            user_id (int)  
     <br>
 
 - **_/articles_** : All actions about the articles  
@@ -46,8 +52,14 @@
     <br>
 
     - **_/articles/list_** : to get the list of all articles  
-        - GET method
+        - GET method  
+    <br>
 
+    - **_/articles/list/{article_id}_** : to get article of id {article_id}  
+        - GET method  
+        - ARGS :  
+            article_id (int)
+        <br>
 <br>
 
 ### **Data Schemas :**
