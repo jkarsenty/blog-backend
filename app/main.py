@@ -1,3 +1,4 @@
+from ast import Delete
 from fastapi import FastAPI, status, Depends, Response, HTTPException
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
@@ -129,3 +130,29 @@ def create_article(article: schemas.Article, db : Session = Depends(get_db)):
     db.refresh(new_article)
 
     return new_article
+
+
+@app.delete('/articles/delete/{article_id}', status_code=status.HTTP_204_NO_CONTENT)
+def delete_one_article(article_id:int, db: Session = Depends(get_db)):
+    article = db.query(models.Article).filter(models.Article.article_id == article_id)
+    
+    if not article.first():
+        raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f'Article of id {article_id} does not exist')
+
+    article.delete(synchronize_session=False)
+    db.commit()
+
+    return f"Article {article_id} Deleted"
+
+
+# @app.put('/articles/update/{article_id}', status_code=status.HTTP_202_ACCEPTED)
+# def update_article(article_id:int, db: Session = Depends(get_db)):
+#     article = db.query(models.Article).filter(models.Article.article_id == article_id)
+    
+#     if not article.first():
+#         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f'Article of id {article_id} does not exist')
+
+#     article.update(synchronize_session=False)
+#     db.commit()
+
+#     return f"Article {article_id} Updated"
