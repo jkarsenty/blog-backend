@@ -22,6 +22,7 @@ def get_db():
     finally:
         db.close()
 
+
 ## Index Endpoint ##
 
 @app.get("/", response_class=HTMLResponse,status_code=status.HTTP_200_OK)
@@ -32,6 +33,7 @@ async def index():
         home = f.read()
     
     return HTMLResponse(content=home)
+
 
 ## Login Endpoint ##
 
