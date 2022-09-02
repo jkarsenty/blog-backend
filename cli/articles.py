@@ -8,8 +8,9 @@ app = typer.Typer()
 
 @app.command()
 def create_article(title:str, body:str):
-    print(f"title : {title}")
-    print(f"body : {body}")
+    typer.echo("Creating Article ...")
+    typer.echo(f"title : {title}")
+    typer.echo(f"body : {body}")
 
     endpoint = "articles/create"
     url = f"{URL_APP}/{endpoint}"
@@ -24,38 +25,45 @@ def create_article(title:str, body:str):
 
     resp = requests.post(url, headers=headers, json=data)
 
-    print(resp.status_code)
-    print(resp.json())
-
+    typer.echo(resp.status_code)
+    typer.echo(resp.json())
+    typer.echo("Article Created")
 
 @app.command()
 def get_all_articles():
-    print("All Articles")
+    typer.echo("Getting all articles ...")
 
     endpoint = "articles/list"
     url = f"{URL_APP}/{endpoint}"
+    headers = CaseInsensitiveDict()
+    headers["accept"] = "application/json"
 
-    resp = requests.get(url)
+    resp = requests.get(url, headers=headers)
 
-    print(resp.status_code)
-    print(resp.json())
+    typer.echo(resp.status_code)
+    typer.echo(resp.json())
 
 
 @app.command()
 def get_one_article(article_id:int):
-    typer.echo(f"Article {article_id}")
+    typer.echo(f"Getting article {article_id} ...")
 
     endpoint = "articles/list"
     url = f"{URL_APP}/{endpoint}/{article_id}"
+    headers = CaseInsensitiveDict()
+    headers["accept"] = "application/json"
 
-    resp = requests.get(url)
+    resp = requests.get(url, headers=headers)
 
-    print(resp.status_code)
-    print(resp.json())
+    typer.echo(resp.status_code)
+    if resp.status_code == 200 :
+        typer.echo(resp.json())
+    else :
+        typer.echo(f'Article of id {article_id} does not exist')
 
 @app.command()
 def delete_one_article(article_id:int):
-    typer.echo(f"Article {article_id} deleted")
+    typer.echo(f"Deletting article {article_id} ...")
     
     endpoint = "articles/delete"
     url = f"{URL_APP}/{endpoint}/{article_id}"
@@ -66,7 +74,11 @@ def delete_one_article(article_id:int):
 
     resp = requests.delete(url, headers=headers)
 
-    print(resp.status_code)
+    typer.echo(resp.status_code)
+    if resp.status_code == 404 :
+        typer.echo(f'Article of id {article_id} does not exist')
+    elif resp.status_code == 204 :
+        typer.echo(f"Article of id {article_id} deleted")
 
 if __name__ == "__main__":
     app()

@@ -8,6 +8,7 @@ app = typer.Typer()
 
 @app.command()
 def create_user(name:str, login:str, pwd:str):
+    typer.echo("Creating User ...")
     typer.echo(f"name : {name}")
     typer.echo(f"login : {login}")
     typer.echo(f"pwd : {pwd}")
@@ -26,39 +27,47 @@ def create_user(name:str, login:str, pwd:str):
 
     resp = requests.post(url, headers=headers, json=data)
 
-    print(resp.status_code)
-    print(resp.json())
+    typer.echo(resp.status_code)
+    typer.echo(resp.json())
+    typer.echo("User Created")
 
 
 @app.command()
 def get_all_users():
-    typer.echo("All Users")
+    typer.echo("Getting all users ...")
     
     endpoint = "users/list"
     url = f"{URL_APP}/{endpoint}"
+    headers = CaseInsensitiveDict()
+    headers["accept"] = "application/json"
 
-    resp = requests.get(url)
+    resp = requests.get(url, headers=headers)
 
-    print(resp.status_code)
-    print(resp.json())
+    typer.echo(resp.status_code)
+    typer.echo(resp.json())
 
 
 @app.command()
 def get_one_user(user_id:int):
-    typer.echo(f"User {user_id}")
+    typer.echo(f"Getting user {user_id} ...")
 
     endpoint = "users/list"
     url = f"{URL_APP}/{endpoint}/{user_id}"
+    headers = CaseInsensitiveDict()
+    headers["accept"] = "application/json"
 
-    resp = requests.get(url)
+    resp = requests.get(url, headers=headers)
 
-    print(resp.status_code)
-    print(resp.json())
+    typer.echo(resp.status_code)
+    if resp.status_code == 200 :
+        typer.echo(resp.json())
+    else :
+        typer.echo(f'User of id {user_id} does not exist')
 
 
 @app.command()
 def delete_one_user(user_id:int):
-    typer.echo(f"User {user_id} deleted")
+    typer.echo(f"Deletting user {user_id} ...")
     
     endpoint = "users/delete"
     url = f"{URL_APP}/{endpoint}/{user_id}"
@@ -68,8 +77,12 @@ def delete_one_user(user_id:int):
 
 
     resp = requests.delete(url, headers=headers)
-
-    print(resp.status_code)
+    
+    typer.echo(resp.status_code)
+    if resp.status_code == 204 :
+        typer.echo(f"User of id {user_id} deleted")
+    elif resp.status_code == 404 :
+        typer.echo(f'User of id {user_id} does not exist')
 
 
 if __name__ == "__main__":
