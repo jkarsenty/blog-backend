@@ -40,7 +40,7 @@ async def index():
 
 ## Login Endpoint ##
 
-@app.post("/login", tags=["Login"])
+@app.post("/login", response_model=schemas.ShowUser, tags=["Login"])
 def login(login : schemas.Login, db : Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.login == login.username).first()
     
@@ -56,7 +56,7 @@ def login(login : schemas.Login, db : Session = Depends(get_db)):
 
 ## Users Endpoints ##
 
-@app.get("/users/list", status_code=200)
+@app.get("/users/list", response_model=List[schemas.ShowUser], status_code=200, tags=["Users"])
 def get_all_users(db : Session = Depends(get_db)):
     '''Get all users'''
    
