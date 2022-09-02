@@ -45,6 +45,7 @@ def test_get_all_users():
     response = client.get("/users/list")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
+    assert len(response.json()) == 2
     assert response.json() == [
         {"name": USER_1["name"], "login":USER_1["login"]},
         {"name": USER_2["name"], "login":USER_2["login"]}
@@ -70,16 +71,52 @@ def test_get_one_user():
 
 ## Articles ##
 def test_create_article():
-    pass
+    response = client.post("/articles/create",json=ARTICLE_1)
+    assert response.status_code == 201
+    assert response.json() == {"article_id":1, "title":ARTICLE_1["title"], "body":ARTICLE_1["body"]}
+    
+    client.delete("/articles/delete/1")
 
 def test_delete_one_article():
-    pass
+    client.post("/articles/create",json=ARTICLE_1)
+    article_id = 1
+    response = client.delete(f"/articles/delete/{article_id}")
+    assert response.status_code == 204
+    
+    article_id = 500
+    response = client.delete(f"/articles/delete/{article_id}")
+    assert response.status_code == 404
+    assert response.json() == {"detail": f"Article of id {article_id} does not exist"}
 
 def test_get_all_articles():
-    pass
+    client.post("/articles/create",json=ARTICLE_1)
+    client.post("/articles/create",json=ARTICLE_2)
+    
+    response = client.get("/articles/list")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 2
+    assert response.json() == [
+        {"article_id":1,"title": ARTICLE_1["title"], "body":ARTICLE_1["body"]},
+        {"article_id":2,"title": ARTICLE_2["title"], "body":ARTICLE_2["body"]}
+    ]
+
+    client.delete("/articles/delete/1")
+    client.delete("/articles/delete/2")
 
 def test_get_one_article():
-    pass
+    client.post("/articles/create",json=ARTICLE_1)
+    article_id = 1
+    response = client.get(f"/articles/list/{article_id}")
+    assert response.status_code == 200
+    assert response.json() == {"article_id":1,"title": ARTICLE_1["title"], "body":ARTICLE_1["body"]}
+    
+    article_id = 500
+    response = client.get(f"/articles/list/{article_id}")
+    assert response.status_code == 404
+    assert response.json() == {"detail": f"Article of id {article_id} does not exist"}
+
+    client.delete("/articles/delete/1")
 
 
 ## Login ##
