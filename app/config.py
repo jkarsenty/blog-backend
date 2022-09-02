@@ -48,3 +48,18 @@ ARTICLE_WRONG_BODY_TYPE = {
     "title": "title",
     "body": 1
 }
+
+LOGIN_1 = {
+    "username": "us1",
+    "pwd": "my_pwd"
+}
+
+LOGIN_WRONG_USERNAME = {
+    "username": "us_wrong",
+    "pwd": "my_pwd"
+}
+
+LOGIN_WRONG_PWD = {
+    "username": "us1",
+    "pwd": "wrong_pwd"
+}
