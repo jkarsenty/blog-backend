@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# notes
+notes.txt
+
+# db
+blog.db
