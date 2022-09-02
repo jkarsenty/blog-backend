@@ -1,10 +1,11 @@
+from re import L
 from fastapi.testclient import TestClient
 from .main import app
 from .database import engine
 from .config import USER_1, USER_2, ARTICLE_1, ARTICLE_2 
 from .config import USER_WRONG_NAME_TYPE, USER_WRONG_LOGIN_TYPE,USER_WRONG_PWD_TYPE
 from .config import ARTICLE_WRONG_BODY_TYPE, ARTICLE_WRONG_TITLE_TYPE
-
+from .config import LOGIN_1, LOGIN_WRONG_USERNAME, LOGIN_WRONG_PWD
 client = TestClient(app)
 
 ## Database Connection ##
@@ -121,5 +122,18 @@ def test_get_one_article():
 
 ## Login ##
 def test_login():
-    pass
+    client.post("/users/create",json=USER_1)
 
+    response = client.post("/login", json=LOGIN_1)
+    assert response.status_code == 200
+    assert response.json() == {"name": USER_1["name"], "login":LOGIN_1["username"]}
+
+    response = client.post("/login", json=LOGIN_WRONG_USERNAME)
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Invalid Credentials"}
+
+    response = client.post("/login", json=LOGIN_WRONG_PWD)
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Incorrect Password"}
+
+    client.delete("/users/delete/1")
