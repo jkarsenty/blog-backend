@@ -40,7 +40,7 @@ async def index():
 
 ## Login Endpoint ##
 
-@app.post("/login", tags=["Login"])
+@app.post("/login", response_model=schemas.ShowUser, tags=["Login"])
 def login(login : schemas.Login, db : Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.login == login.username).first()
     
