@@ -2,7 +2,7 @@ import typer
 import requests
 from requests.structures import CaseInsensitiveDict
 
-URL_APP = "http://www.localhost:8000"
+from .config import URL_APP
 
 #app_users = typer.Typer()
 
