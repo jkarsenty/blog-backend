@@ -4,9 +4,9 @@ from requests.structures import CaseInsensitiveDict
 
 URL_APP = "http://www.localhost:8000"
 
-app = typer.Typer()
+#app_login = typer.Typer()
 
-@app.command()
+#app_login.command()
 def login(username:str, pwd:str):
     typer.echo(f"username : {username}")
     typer.echo(f"password : {pwd}")
@@ -28,5 +28,5 @@ def login(username:str, pwd:str):
     typer.echo(resp.json())
 
 
-if __name__ == "__main__":
-    app()
+# if __name__ == "__main__":
+#     app_login()

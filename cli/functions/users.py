@@ -4,9 +4,9 @@ from requests.structures import CaseInsensitiveDict
 
 URL_APP = "http://www.localhost:8000"
 
-app = typer.Typer()
+#app_users = typer.Typer()
 
-@app.command()
+#@app_users.command()
 def create_user(name:str, login:str, pwd:str):
     typer.echo("Creating User ...")
     typer.echo(f"name : {name}")
@@ -32,7 +32,7 @@ def create_user(name:str, login:str, pwd:str):
     typer.echo("User Created")
 
 
-@app.command()
+#@app_users.command()
 def get_all_users():
     typer.echo("Getting all users ...")
     
@@ -47,7 +47,7 @@ def get_all_users():
     typer.echo(resp.json())
 
 
-@app.command()
+#@app_users.command()
 def get_one_user(user_id:int):
     typer.echo(f"Getting user {user_id} ...")
 
@@ -65,7 +65,7 @@ def get_one_user(user_id:int):
         typer.echo(f'User of id {user_id} does not exist')
 
 
-@app.command()
+#@app_users.command()
 def delete_one_user(user_id:int):
     typer.echo(f"Deletting user {user_id} ...")
     
@@ -85,5 +85,5 @@ def delete_one_user(user_id:int):
         typer.echo(f'User of id {user_id} does not exist')
 
 
-if __name__ == "__main__":
-    app()
+# if __name__ == "__main__":
+#     app_users()

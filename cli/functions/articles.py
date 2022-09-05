@@ -4,9 +4,9 @@ from requests.structures import CaseInsensitiveDict
 
 URL_APP = "http://www.localhost:8000"
 
-app = typer.Typer()
+#app_articles = typer.Typer()
 
-@app.command()
+#@app_articles.command()
 def create_article(title:str, body:str):
     typer.echo("Creating Article ...")
     typer.echo(f"title : {title}")
@@ -29,7 +29,7 @@ def create_article(title:str, body:str):
     typer.echo(resp.json())
     typer.echo("Article Created")
 
-@app.command()
+#@app_articles.command()
 def get_all_articles():
     typer.echo("Getting all articles ...")
 
@@ -44,7 +44,7 @@ def get_all_articles():
     typer.echo(resp.json())
 
 
-@app.command()
+#@app_articles.command()
 def get_one_article(article_id:int):
     typer.echo(f"Getting article {article_id} ...")
 
@@ -61,7 +61,7 @@ def get_one_article(article_id:int):
     else :
         typer.echo(f'Article of id {article_id} does not exist')
 
-@app.command()
+#@app_articles.command()
 def delete_one_article(article_id:int):
     typer.echo(f"Deletting article {article_id} ...")
     
@@ -80,5 +80,5 @@ def delete_one_article(article_id:int):
     elif resp.status_code == 204 :
         typer.echo(f"Article of id {article_id} deleted")
 
-if __name__ == "__main__":
-    app()
+# if __name__ == "__main__":
+#     app_articles()
