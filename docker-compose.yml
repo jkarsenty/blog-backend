@@ -1,0 +1,16 @@
+version: '3'
+services:
+  blog:
+    build: ./blog
+    ports:
+      - 8000:8000
+    
+  
+  cli:
+    depends_on:
+      - "blog"
+    build: ./cli
+    stdin_open: true
+    tty: true
+    network_mode: host
+
